@@ -42,9 +42,9 @@ app.get("/status", (req, res) => {//att
 })
 
 //rota GET principal
-app.get("/", (req, res) => {
+app.get("/menu", (req, res) => {
     res.send(`
         <h1>Menu
-        <a href="/aluno/Milena">Ir para aluno
+        <a href="/aluno/Milena">Ir para aluno</a><br>
         <a href="/status">Ir paa status</a>`)
 })
