@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
-
-app.use((req, res, next) =  > {//att
+//att
+app.use((req, res, next) => {
     console.log("Acesso", req.method, req.url);
     next();
 });
@@ -45,6 +45,6 @@ app.get("/status", (req, res) => {//att
 app.get("/menu", (req, res) => {
     res.send(`
         <h1>Menu
-        <a href="/aluno/Milena">Ir para aluno</a><br>
+        <a href="/aluno/Rene">Ir para aluno</a><br>
         <a href="/status">Ir paa status</a>`)
 })
