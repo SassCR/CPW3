@@ -1,1 +1,8 @@
+# Dependências do Node.js
 node_modules/
+
+# Arquivos de log
+*.log
+
+# Variáveis de ambiente
+.env
