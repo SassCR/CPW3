@@ -25,7 +25,7 @@ app.get("/menu", (req, res) => {
     <div id="Conteudo" style="display: none;">
         <h1 id="Bem vindo">Seja bem vindo ao menu! </h1><br>
         <a id="lnk_aluno" href="/aluno/:nome">Ir para aluno</a><br>
-        <a href="/aluno/status">Ir para status</a><br>
+        <a href="/status">Ir para status</a><br>
         <h2>Caso deseje fazer calculos, basta clica no link abaixo e acrescentar o primeiro número e o segundo no link N1/N2<br></h2>
         <a id="lnk_soma" href="/aluno/:nome/:soma">Ir para soma</a><br>
         <a id="lnk_sub" href="/aluno/:nome/:sub">Ir para subtração</a><br>
