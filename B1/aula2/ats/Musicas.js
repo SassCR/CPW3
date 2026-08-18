@@ -1,87 +1,104 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
-let produtos = [];
-let id = 1;
+let id = 6;
 
 const musicas = [
     { id: 1, titulo: "Dark Red", artista: "Steve Lacy", nota: 10 },
     { id: 2, titulo: "Instant Crush", artista: "Daft Punk", nota: 9 },
     { id: 3, titulo: "Chop Suey!", artista: "System of a Down", nota: 8 },
-    { id: 4, titulo: "Backstage", artista: "Matuê", nota: 7 }
+    { id: 4, titulo: "Backstage", artista: "Matuê", nota: 7 },
+    { id: 5, titulo: "Like This!", artista: "Matuê", nota: 6 }
 ];
 
 
 
 //get
-app.get("/filmes"
+app.get("/musicas"
     , (req, res) => {
-        res.json(produtos);
+        res.json(musicas);
     });
-app.get("/filmes/:id"
+
+app.get("/musicas/:id"
     , (req, res) => {
-        const produto = produtos.find(p => p.id ==
+        const musica = musicas.find(p => p.id ==
             req.params.id);
-        if (!produto) {
+        if (!musica) {
             return res.status(404).json({
-                erro: "Produto não encontrado"
+                erro: "Musica não encontrada"
             });
         }
-        res.json(produto);
+        res.json(musica);
     });
+
+app.get("/artista/:nome", (req, res) => {
+    const artistaNome = req.params.nome.toLocaleLowerCase();
+    const buscarArtista = musicas.filter(m => m.artista.toLocaleLowerCase === artista)
+    res.json(buscarArtista);
+
+});
+
+
+app.get("/top", (req, res) => {
+    const musicasTop = musicas.filter(m => m.nota >= 9);
+    res.json(musicasTop);
+});
+
 
 
 //post
-app.post("/filmes"
+app.post("/musica"
     , (req, res) => {
-        const { nome, preco } = req.body;
-        if (!nome || !preco) {
+        const { titulo, artista, nota } = req.body;
+        if (!titulo || !artista || nota === undefined) {
             return res.status(400).json({
                 erro: "Dados inválidos"
             });
         }
-        const novoProduto = {
-            id: id++
-            ,
-            nome,
-            preco
+        const novaMusica = {
+            id: id++,
+            titulo,
+            artista,
+            nota: Number(nota)
         };
-        produtos.push(novoProduto);
-        res.status(201).json(novoProduto);
+        musicas.push(novaMusica);
+        res.status(201).json(novaMusica);
     });
 
 
+
 //put
-app.put("/filmes/:id"
+app.put("/musica/:id"
     , (req, res) => {
-        const produto = produtos.find(p => p.id ==
+        const musica = musicas.find(p => p.id ==
             req.params.id);
-        if (!produto) {
-            return res.status(404).json({ erro: "Produto não encontrado" });
+        if (!musica) {
+            return res.status(404).json({ erro: "Musica não encontrada" });
         }
-        const { nome, preco } = req.body;
-        if (nome) produto.nome = nome;
-        if (preco) produto.preco = preco;
-        res.json(produto);
+        const { titulo, artista, nota } = req.body;
+        if (titulo) musica.titulo = titulo;
+        if (artista) musica.artista = artista;
+        if (nota) musica.nota = nota;
+        res.json(musica);
     });
 
 
 //delete
-app.delete("/filmes/:id"
+app.delete("/musica/:id"
     , (req, res) => {
-        const index = produtos.findIndex(p => p.id ==
+        const index = musicas.findIndex(p => p.id ==
             req.params.id);
         if (index === -1) {
             return res.status(404).json({
-                erro: "Produto não encontrado"
+                erro: "Musica não encontrada"
             });
         }
-        produtos.splice(index, 1);
-        res.json({ mensagem: "Produto removido" });
+        musicas.splice(index, 1);
+        res.json({ mensagem: "Musica removida" });
     });
 
 
 //porta pra subir o servidor
-app.listen(3000, () => {
-    console.log("Servidor rodando na porta 3000");
+app.listen(3001, () => {
+    console.log("Servidor rodando na porta 3001");
 });

@@ -1,8 +1,7 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
-let produtos = [];
-let id = 1;
+let id = 5;
 
 
 const produtos = [
@@ -14,11 +13,23 @@ const produtos = [
 
 
 //get
-app.get("/filmes"
+app.get("/Produtos"
     , (req, res) => {
         res.json(produtos);
     });
-app.get("/filmes/:id"
+
+app.get("/caros", (req, res) => {
+    const produtosCaros = produtos.filter(p => p.preco > 1000);
+    res.json(produtosCaros);
+});
+
+app.get("/baratos", (req, res) => {
+    const produtosBaratos = produtos.filter(p => p.preco < 200);
+    res.json(produtosBaratos);
+});
+
+
+app.get("/Produtos/:id"
     , (req, res) => {
         const produto = produtos.find(p => p.id ==
             req.params.id);
@@ -32,7 +43,7 @@ app.get("/filmes/:id"
 
 
 //post
-app.post("/filmes"
+app.post("/Produto"
     , (req, res) => {
         const { nome, preco } = req.body;
         if (!nome || !preco) {
@@ -52,7 +63,7 @@ app.post("/filmes"
 
 
 //put
-app.put("/filmes/:id"
+app.put("/Produto/:id"
     , (req, res) => {
         const produto = produtos.find(p => p.id ==
             req.params.id);
@@ -67,7 +78,7 @@ app.put("/filmes/:id"
 
 
 //delete
-app.delete("/filmes/:id"
+app.delete("/Produto/:id"
     , (req, res) => {
         const index = produtos.findIndex(p => p.id ==
             req.params.id);
@@ -82,6 +93,6 @@ app.delete("/filmes/:id"
 
 
 //porta pra subir o servidor
-app.listen(3000, () => {
-    console.log("Servidor rodando na porta 3000");
+app.listen(3002, () => {
+    console.log("Servidor rodando na porta 3002");
 });

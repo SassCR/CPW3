@@ -17,7 +17,7 @@ app.get("/filmes"
     , (req, res) => {
         res.json(filmes);
     });
-app.get("/filme/:id"
+app.get("/filmes/:id"
     , (req, res) => {
         const filme = filmes.find(p => p.id ==
             req.params.id);
@@ -29,12 +29,24 @@ app.get("/filme/:id"
         res.json(filme);
     });
 
+app.get("/bem-avaliados", (req, res) => {
+    const filmesTop = filmes.filter(m => m.nota >= 9);
+    res.json(filmesTop);
+});
+
+app.get("/filmes/ano/:ano", (req, res) => {
+    const filmeAno = parseInt(req.params.ano);
+    const buscarAno = filmes.filter(b => b.ano === filmeAno)
+    res.json(buscarAno);
+
+});
+
 
 //post
 app.post("/filme"
     , (req, res) => {
         const { titulo, ano, nota } = req.body;
-        if (!titulo || !ano || !nota === undefined) {
+        if (!titulo || !ano || nota === undefined) {
             return res.status(400).json({
                 erro: "Dados inválidos"
             });
