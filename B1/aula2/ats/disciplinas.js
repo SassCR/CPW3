@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 let disciplinas = [];
-let id = 5;
+let id = 1;
 //get
 app.get("/disciplinas"
     , (req, res) => {
@@ -52,9 +52,9 @@ app.put("/disciplinas/:id"
             return res.status(404).send("Disciplina não encontrada!");
         }
 
-        disciplina.nome = nome
-        disciplina.professor = professor
-        disciplina.horas = horas;
+        if (nome) disciplina.nome = nome;
+        if (professor) disciplina.professor = professor;
+        if (horas) disciplina.horas = horas;
         res.json({
             mensagem: "Disciplina atualizada com sucesso!",
             Disciplina: disciplina
