@@ -6,11 +6,11 @@ let id = 1;
 
 
 //get
-app.get("/produtos"
+app.get("/filmes"
     , (req, res) => {
         res.json(produtos);
     });
-app.get("/produtos/:id"
+app.get("/filmes/:id"
     , (req, res) => {
         const produto = produtos.find(p => p.id ==
             req.params.id);
@@ -24,7 +24,7 @@ app.get("/produtos/:id"
 
 
 //post
-app.post("/produtos"
+app.post("/filmes"
     , (req, res) => {
         const { nome, preco } = req.body;
         if (!nome || !preco) {
@@ -44,7 +44,7 @@ app.post("/produtos"
 
 
 //put
-app.put("/produtos/:id"
+app.put("/filmes/:id"
     , (req, res) => {
         const produto = produtos.find(p => p.id ==
             req.params.id);
@@ -59,7 +59,7 @@ app.put("/produtos/:id"
 
 
 //delete
-app.delete("/produtos/:id"
+app.delete("/filmes/:id"
     , (req, res) => {
         const index = produtos.findIndex(p => p.id ==
             req.params.id);
