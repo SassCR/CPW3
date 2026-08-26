@@ -11,8 +11,8 @@ app.get("/", (req, res) => {
 
 
 app.post("/estudo", (req, res) => {
-    const { nome, mensagem } = req.body;
-    const linha = `${nome}: ${mensagem}\n`;
+    const { materia, aprendizado } = req.body;
+    const linha = `${materia}: ${aprendizado}\n`;
     fs.appendFileSync("notas.txt", linha, "utf-8");
 
     
