@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anotações para estudo!</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h2>O que eu aprendi hoje?</h2>
-    <form action="http://localhost:3000/estudo" method="post">
-        <label for="materia">Materia:</label>
-        <input type="text" name="materia" placeholder="Digite o nome da materia... ">
-        <br><br>
-        <textarea name="aprendizado" placeholder="Digite o que você aprendeu hoje!" required></textarea>
-        <br><br>
-        <button type="submit">Enviar anotação!</button>
-    </form>
+    <div class="caixa">
+        <h2>O que eu aprendi hoje?</h2>
+        <form action="http://localhost:3000/estudo" method="post">
+            <label for="materia">Materia:</label>
+            <input type="text" name="materia" placeholder="Digite o nome da materia... ">
+            <br><br>
+            <label>Anotações:</label>
+            <textarea name="aprendizado" placeholder="Digite o que você aprendeu hoje!" required></textarea>
+            <br><br>
+            <button type="submit">Enviar anotação!</button>
+        </form>
+    </div>
 </body>
+
 </html>
