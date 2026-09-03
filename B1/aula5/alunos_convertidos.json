@@ -1,0 +1,17 @@
+[
+  {
+    "nome": "Ana silva",
+    "nota": 5.3,
+    "curso": "Sistemas para int"
+  },
+  {
+    "nome": "Bruno Consta",
+    "nota": 10,
+    "curso": "Sistemas para i"
+  },
+  {
+    "nome": "Carlos Souza",
+    "nota": 5.8,
+    "curso": "Sistemas para I"
+  }
+]
