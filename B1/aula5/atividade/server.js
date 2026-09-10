@@ -1,11 +1,13 @@
-const { error } = require("console");
+const { erro } = require("console");
 const fs = require("fs/promises");
 async function converterJsonParaTx() {
     try {
         const textoJson = await fs.readFile('alunos_convertidos.json', 'utf-8');
+
         const alunos = JSON.parse(textoJson);
+        
         const texto = alunos.map(aluno => {
-            return `${aluno.nome}, ${aluno.email}, ${aluno.telefone}`
+            return `${aluno.nome}, ${aluno.nota}, ${aluno.curso}`
         }).join("\n");
 
         await fs.writeFile("dados_convertidos.txt", texto);
