@@ -25,7 +25,8 @@ const jogos =
             "genero": "Trocação sincera"
         }
     ]
-api.use(express.json());
+api.use(express.json())
+
 
 api.get("/", (req, res) => {
     res.send("Servidor rodando liso")
@@ -45,44 +46,44 @@ api.get("/jogos/:id", (req, res) => {
 });//GET para buscar por jogo pelo ID
 
 api.post("/jogos", (req, res) => {
-    const {nome, preco, moeda, genero} = req.body;
-    if(!nome || preco === undefined || !genero){
+    const { nome, preco, moeda, genero } = req.body;
+    if (!nome || preco === undefined || !genero) {
         return res.status(400).send("ERRO: Os campos 'nome', 'preco', 'moeda' e 'genero' são obrigatorios ")
     }//Aqui nesse post eu fiz a verificação se colocaram o nome, preco e genero.
 
 
-const novoID = jogos.length > 0 ? jogos[jogos.length - 1].id + 1 : 1;
-//Fiz uma variavel para toda vez que coloca um jogo no ele vai acrescentar um id automatico
+    const novoID = jogos.length > 0 ? jogos[jogos.length - 1].id + 1 : 1;
+    //Fiz uma variavel para toda vez que coloca um jogo no ele vai acrescentar um id automatico
 
 
-const novoJogo = {
-    id: novoID,
-    nome: nome,
-    preco: preco,
-    moeda: moeda || "BRL",
-    genero: genero
-};
-jogos.push(novoJogo)
-res.status(201).json(novoJogo)
+    const novoJogo = {
+        id: novoID,
+        nome: nome,
+        preco: preco,
+        moeda: moeda || "BRL",
+        genero: genero
+    };
+    jogos.push(novoJogo)
+    res.status(201).json(novoJogo)
 });
 
 api.put("/jogos/:id", (req, res) => {
     const IDparam = Number(req.params.id);
-    const {nome, preco, genero, moeda} = req.body;
+    const { nome, preco, genero, moeda } = req.body;
 
 
-    if(!nome || preco === undefined || !genero){
+    if (!nome || preco === undefined || !genero) {
         return res.status(400).send("ERRO: informe o nome e o preco! ");
     };
 
     const indiceJogo = jogos.findIndex(jogo => jogo.id === IDparam);
 
-    if(indiceJogo === -1){
+    if (indiceJogo === -1) {
         return res.status(404).send("ERRO: Jogo não encontrado para edição.")
     };
     jogos[indiceJogo] = {
         id: IDparam,
-        nome: nome, 
+        nome: nome,
         preco: preco,
         moeda: moeda || "BRL",
         genero: genero
@@ -90,6 +91,22 @@ api.put("/jogos/:id", (req, res) => {
     res.status(200).send("Jogo editado com sucesso!")
 });
 
+api.delete("/jogos/:id", (req, res) => {
+    const IDparam = Number(req.params.id);
+    const indice = jogos.findIndex(jogo => jogo.id === IDparam)
+    if (indice === -1) {
+        return res.status(404).send("Jogo não encontrado!")
+    }
+    jogos.splice(indice, 1)
+    res.status(200).send("Jogo removido com sucesso!")
+})
+
+api.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        return res.status(400).send("ERRO: O JSON enviado no corpo da requisição tem um erro de sintaxe.");
+    }
+    next();
+});
 
 api.listen(porta, () => {
     console.log(`Servidor rodando em http://localhost:${porta} `);

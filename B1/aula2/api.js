@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 const express = require("express");
 const app = express();
 app.use(express.json());
@@ -77,12 +77,12 @@ app.delete("/filmes/:id"
 //porta pra subir o servidor
 app.listen(3000, () => {
     console.log("Servidor rodando na porta 3000");
-=======
 const express = require("express");
 const app = express();
 app.use(express.json());
 let produtos = [];
 let id = 1;
+})
 
 
 //get
@@ -156,5 +156,5 @@ app.delete("/produtos/:id"
 //porta pra subir o servidor
 app.listen(3000, () => {
     console.log("Servidor rodando na porta 3000");
->>>>>>> ff770b1 (att)
+
 });
