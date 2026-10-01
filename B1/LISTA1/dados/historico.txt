@@ -1,0 +1,4 @@
+Jogo cadastrado: Jogador N1
+Jogo atualizado: Jogador N1
+Jogo removido: Jogador N1
+Jogo atualizado: GTA

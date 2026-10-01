@@ -33,22 +33,32 @@ Parte 5 — PUT
  37. Localizar pelo ID.
  38. Permitir alterar dados pelo Body.
  39. Retornar 404 se não existir.
+ ![alt text](image-7.png)
  40. Retornar objeto atualizado.
+ antes:![alt text](image-8.png)
+ depois:![alt text](image-9.png)
  41. Testar atualização válida.
+ antes:![alt text](image-10.png)
+ depos:![alt text](image-11.png)
  42. Testar ID inexistente.
+ ![alt text](image-12.png)
 Parte 6 — DELETE
  44. Criar DELETE /jogos/:id.
  45. Usar findIndex().
  46. Usar splice().
  47. Retornar 404 se não existir.
+ ![alt text](image-13.png)
  48. Confirmar exclusão.
+ ![alt text](image-14.png)
  49. Testar DELETE.
  51. Fazer GET depois e comprovar remoção.
+ ![alt text](image-15.png)
 Parte 7 — Rota especial
  52. Criar GET /jogos/melhores.
  53. Retornar jogos com nota ≥ 8.
  54. Usar filter().
  55. Testar no Postman.
+ ![alt text](image-6.png)
 Parte 9 — JSON
  65. Criar pasta dados.
  66. Criar jogos.json com os jogos.
@@ -59,7 +69,14 @@ Parte 9 — JSON
  71. Reiniciar servidor e verificar persistência.
  73. Adaptar PUT para salvar no JSON.
  74. Adaptar DELETE para salvar no JSON.
- 75. Testar GET, POST, PUT e DELETE novamente.
+ 75. Testar 
+ GET:![alt text](image-16.png)
+POST:![alt text](image-17.png)
+PUT:
+antes:![alt text](image-18.png) 
+depois:![alt text](image-19.png)
+
+DELETE:![alt text](image-20.png).
 Parte 10 — Histórico TXT
  76. Criar historico.txt.
  77. Registrar cadastro.
@@ -68,6 +85,7 @@ Parte 10 — Histórico TXT
  80. Usar appendFile ou appendFileSync.
  81. Criar GET /historico.
  82. Testar no Postman.
+ ![alt text](image-22.png)
 Parte 12 — path
  93. Usar path.join() para jogos.json.
  94. Usar path.join() para historico.txt.
@@ -76,6 +94,14 @@ Parte 13 — Tratamento de erros
  98. try/catch em escrita de arquivo.
  99. Retornar erro apropriado em rota.
  100. Testar erro controlado e registrar no README.
+ ### Tratamento de erros
+
+Foi utilizado `try/catch` para controlar erros na leitura e escrita dos arquivos JSON e TXT.
+
+Para testar, o arquivo `jogos.json` foi renomeado temporariamente e o servidor foi iniciado. O erro de leitura foi capturado pelo `try/catch`, evitando que o servidor fosse encerrado inesperadamente.
+
+Também foi testado o tratamento de erro nas operações de escrita, retornando o status `500` quando ocorre um problema ao salvar os dados.
+
 Parte 14 — Assíncrono
  108. Se usar versão assíncrona, envolver em try/catch.
 Parte 17 — Postman
@@ -98,4 +124,4 @@ Parte 18 — Organização
  138. Colocar comandos de instalação/inicialização no README.
  139. Colocar respostas teóricas no README.
  140. Colocar prints do Postman.
- 141. Enviar repositório no GitHub.
+ 141. Enviar repositório no GitHub
