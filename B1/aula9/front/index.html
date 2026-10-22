@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100808">
+  <title>Login | Velocity Motorsport</title>
+  <link rel="stylesheet" href="colorir.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="pagina-login">
+  <header class="cabecalho-login">
+    <a class="marca" href="index.html" aria-label="Velocity Motorsport - início">
+      <span class="marca-icone" aria-hidden="true">V</span>
+      <span><strong>VELOCITY</strong><small>MOTORSPORT</small></span>
+    </a>
+    <span class="texto-cabecalho">O seu próximo carro começa aqui.</span>
+  </header>
+
+  <main class="login-layout">
+    <section class="apresentacao-login" aria-label="Apresentação da loja">
+      <span class="sobretitulo"><span class="ponto-vermelho"></span> ACESSO EXCLUSIVO</span>
+      <h1>Alta performance.<br><em>Sem limites.</em></h1>
+      <p>Explore uma seleção especial de veículos e encontre o próximo destaque da sua garagem.</p>
+      <div class="linha-decorativa"><span></span><span></span><span></span></div>
+    </section>
+
+    <section class="Login" aria-labelledby="titulo-login">
+      <div class="topo-formulario">
+        <span class="etiqueta">ÁREA DO CLIENTE</span>
+        <h2 id="titulo-login">Seja bem-vindo!</h2>
+        <p>Entre com seus dados para acessar o catálogo.</p>
+      </div>
+      <form id="form-login">
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="Digite seu e-mail" autocomplete="email" required>
+        </div>
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <div class="campo-senha">
+            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" minlength="6" autocomplete="current-password" required>
+            <button class="alternar-senha" type="button" id="mostrar-senha" aria-label="Mostrar senha">Mostrar</button>
+          </div>
+        </div>
+        <p id="mensagem-login" class="mensagem-erro" role="alert" aria-live="polite"></p>
+        <button class="botao-primario" type="submit">ENTRAR <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="aviso-demo">Demonstração frontend: use qualquer e-mail válido e uma senha de pelo menos 6 caracteres.</p>
+    </section>
+  </main>
+  <footer class="rodape-login">© 2026 Velocity Motorsport · Projeto demonstrativo</footer>
+</body>
+</html>

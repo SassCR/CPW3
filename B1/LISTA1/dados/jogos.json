@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "nome": "GTA",
+        "preco": 10,
+        "moeda": "BRL",
+        "genero": "normal",
+        "nota": 5
+    },
+    {
+        "id": 3,
+        "nome": "Valorant",
+        "preco": 0,
+        "moeda": "BRL",
+        "genero": "Trocação sincera",
+        "nota": 3
+    },
+    {
+        "id": 5,
+        "nome": "Free Fire",
+        "preco": 0,
+        "moeda": "BRL",
+        "genero": "Loucura",
+        "nota": 8
+    },
+    {
+        "id": 6,
+        "nome": "Roblox",
+        "preco": 0,
+        "moeda": "BRL",
+        "genero": "Hep",
+        "nota": 8
+    },
+    {
+        "id": 7,
+        "nome": "JogoNovo",
+        "preco": 0,
+        "moeda": "Valopoints",
+        "genero": "Bom dia",
+        "nota": 8
+    }
+]
