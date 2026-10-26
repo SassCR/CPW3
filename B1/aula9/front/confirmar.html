@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Código - Velocity Motorsport</title>
+    <link rel="stylesheet" href="colorir.css">
+</head>
+<body>
+
+    <header>
+        <h1>VELOCITY MOTORSPORT</h1>
+    </header>
+
+    <main>
+        <div class="Login">
+            <h2>Confirmar Código</h2>
+            <p>Digite o código de 4 dígitos enviado para seu e-mail.</p>
+
+            <form action="/confirmar" method="POST">
+                <label for="codigo">Código de confirmação:</label>
+                <input type="text" id="codigo" name="codigo"
+                    maxlength="4" inputmode="numeric"
+                    placeholder="Digite o código">
+
+                <button type="submit">Confirmar</button>
+            </form>
+
+            <p><a href="/login">Voltar ao login</a></p>
+        </div>
+    </main>
+
+</body>
+</html>

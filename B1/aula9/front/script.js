@@ -5,25 +5,20 @@ const favoritosKey = "velocity_favoritos";
 const formulario = document.getElementById("form-login");
 
 if (formulario) {
-  const mensagem = document.getElementById("mensagem-login");
+    const mensagem = document.getElementById("mensagem-login");
 
-  if (window.location.search.includes("erro=1")) {
-    mensagem.textContent = "E-mail ou senha incorretos!";
-  }
-
-
-  formulario.addEventListener("submit", (evento) => {
-    const email = document.getElementById("email").value.trim();
-    const senha = document.getElementById("senha").value;
-
-    const admin = email === "admin" && senha === "admin";
-    const cliente = email.includes("@") && senha.length >= 6;
-
-    if (!admin && !cliente) {
-      evento.preventDefault();
-      mensagem.textContent = "Usuário ou senha inválidos!";
+    if (window.location.search.includes("erro=1")) {
+        mensagem.textContent = "Código incorreto ou expirado. Solicite outro.";
     }
-  });
+
+    formulario.addEventListener("submit", (evento) => {
+        const email = document.getElementById("email").value.trim();
+
+        if (!email.includes("@") || !email.includes(".")) {
+            evento.preventDefault();
+            mensagem.textContent = "Digite um e-mail válido!";
+        }
+    });
 }
 
 // DASHBOARD

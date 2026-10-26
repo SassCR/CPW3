@@ -2,8 +2,18 @@
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
+require("dotenv").config();
+const nodemailer = require("nodemailer");
 
 const app = express();
+
+const transporte = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_REMETENTE,
+        pass: process.env.SENHA_APP
+    }
+});
 
 const frontend = path.join(__dirname, "../front");
 
@@ -16,11 +26,42 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 60000,
+        maxAge: 300000,
         httpOnly: true,
         sameSite: "lax"
     }
 }));
+
+app.post("/solicitar-codigo", async (req, res) => {
+
+    const { email } = req.body;
+
+    if (!email || !email.includes("@")) {
+        return res.status(400).send("E-mail inválido!");
+    }
+
+    // Gera código de 4 dígitos
+    const codigo = Math.floor(1000 + Math.random() * 9000);
+
+    try {
+        await transporte.sendMail({
+            from: process.env.EMAIL_REMETENTE,
+            to: email,
+            subject: "Código de acesso - Velocity Motorsport",
+            text: `Seu código de confirmação é: ${codigo}`
+        });
+
+        // Guarda os dados na sessão
+        req.session.codigo = String(codigo);
+        req.session.emailPendente = email;
+
+        res.redirect("/confirmar");
+
+    } catch (erro) {
+        console.log(erro.message);
+        res.status(500).send("Erro ao enviar o código!");
+    }
+});
 
 // Arquivos públicos
 app.use("/assets", express.static(path.join(frontend, "assets")));
@@ -43,29 +84,44 @@ app.get("/login", (req, res) => {
     res.sendFile(path.join(frontend, "index.html"));
 });
 
-// Verificação do login
-app.post("/login", (req, res) => {
-    const { email, senha } = req.body;
 
-    // Administrador
-    if (email === "admin" && senha === "admin") {
-        req.session.usuario = "admin";
-        req.session.tipo = "admin";
 
-        return res.redirect("/dashboard");
+// Página de confirmação
+app.get("/confirmar", (req, res) => {
+    res.sendFile(path.join(frontend, "confirmar.html"));
+});
+
+app.post("/confirmar", (req, res) => {
+
+    const { codigo } = req.body;
+
+    // Verifica se existe código na sessão
+    if (!req.session.codigo || !req.session.emailPendente) {
+        return res.redirect("/login");
     }
 
-    // Cliente normal
-    if (typeof email === "string" && typeof senha === "string" &&
-        email.includes("@") && senha.length >= 6) {
+    // Verifica se o código está correto
+    if (codigo === req.session.codigo) {
 
-        req.session.usuario = email;
-        req.session.tipo = "cliente";
+        req.session.usuario = req.session.emailPendente;
+        req.session.tipo =
+            req.session.usuario === process.env.EMAIL_ADMIN
+                ? "admin"
+                : "cliente";
 
-        return res.redirect("/dashboard");
+        delete req.session.codigo;
+        delete req.session.emailPendente;
+
+        res.redirect("/dashboard");
+
+    } else {
+
+        delete req.session.codigo;
+        delete req.session.emailPendente;
+
+        res.redirect("/login?erro=1");
     }
 
-    res.redirect("/login?erro=1");
 });
 
 // Middleware de proteção
