@@ -1,102 +1,131 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#180606">
-  <title>Catálogo | Velocity Motorsport</title>
-  <link rel="stylesheet" href="colorir.css">
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Velocity Motorsport</title>
+    <link rel="stylesheet" href="colorir.css">
+    <script src="script.js" defer></script>
 </head>
 <body class="pagina-dashboard">
-  <div class="anuncio-topo">CONFIRA NOSSOS CARROS DE ALTO DESEMPENHO POR PREÇOS INCRÍVEIS</div>
-  <header class="cabecalho-dashboard">
-    <div class="container cabecalho-interno">
-      <a class="marca" href="dashboard.html" aria-label="Velocity Motorsport - catálogo">
-        <span class="marca-icone" aria-hidden="true">V</span>
-        <span><strong>VELOCITY</strong><small>MOTORSPORT</small></span>
-      </a>
-      <nav class="navegacao" aria-label="Navegação principal">
-        <a href="#inicio">INÍCIO</a>
-        <a href="#catalogo">CATÁLOGO</a>
-        <button type="button" class="nav-favoritos" id="ver-favoritos">FAVORITOS <span id="contador-favoritos">0</span></button>
-      </nav>
-      <div class="conta">
-        <span class="usuario" id="usuario-logado">Visitante</span>
-        <button type="button" id="sair" class="botao-sair">Sair ↗</button>
-      </div>
-    </div>
-  </header>
 
-  <main id="inicio">
-    <section class="banner" aria-label="Destaque da loja">
-      <div class="container banner-interno">
-        <div class="banner-texto">
-          <span class="sobretitulo"><span class="ponto-vermelho"></span> VEÍCULOS EXCLUSIVOS</span>
-          <h1>VELOCITY <span>MOTORSPORT</span></h1>
-          <p>CARROS TOP DE LINHA. <br><strong>ALTO DESEMPENHO POR PREÇOS INCRÍVEIS.</strong></p>
-          <a class="botao-primario explorar" href="#catalogo">EXPLORAR CATÁLOGO <span aria-hidden="true">↓</span></a>
+    <header class="cabecalho-dashboard">
+        <div class="container cabecalho-interno">
+
+            <a class="marca" href="dashboard.html">
+                <span class="marca-icone">V</span>
+                <span>
+                    <strong>VELOCITY</strong>
+                    <small>MOTORSPORT</small>
+                </span>
+            </a>
+
+            <nav class="navegacao">
+                <a href="#inicio">INÍCIO</a>
+                <a href="#catalogo">CATÁLOGO</a>
+                <button id="ver-favoritos">
+                    FAVORITOS <span id="contador-favoritos">0</span>
+                </button>
+            </nav>
+
+            <div class="conta">
+                <span id="usuario-logado">Visitante</span>
+                <button id="sair" class="botao-sair">Sair</button>
+            </div>
+
         </div>
-      </div>
-    </section>
+    </header>
 
-    <section class="area-catalogo" id="catalogo" aria-labelledby="titulo-catalogo">
-      <div class="container painel-catalogo">
-        <div class="catalogo-topo">
-          <div>
-            <span class="etiqueta">NOSSA COLEÇÃO</span>
-            <h2 id="titulo-catalogo">NOVIDADES</h2>
-            <p>Escolha o carro que combina com o seu estilo.</p>
-          </div>
-          <div class="total-modelos"><strong id="total-carros">3</strong><span>MODELOS DISPONÍVEIS</span></div>
+    <main id="inicio">
+
+        <section class="banner">
+            <div class="container banner-interno">
+                <div class="banner-texto">
+                    <h1>VELOCITY <span>MOTORSPORT</span></h1>
+                    <p>Carros de alto desempenho por preços incríveis.</p>
+                    <a class="botao-primario explorar" href="#catalogo">
+                        EXPLORAR CATÁLOGO
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="area-catalogo" id="catalogo">
+            <div class="container painel-catalogo">
+
+                <div class="catalogo-topo">
+                    <div>
+                        <h2 id="titulo-catalogo">NOVIDADES</h2>
+                        <p>Escolha o carro que combina com você.</p>
+                    </div>
+
+                    <div class="total-modelos">
+                        <strong id="total-carros">3</strong>
+                        <span>MODELOS DISPONÍVEIS</span>
+                    </div>
+                </div>
+
+                <div class="filtros">
+
+                    <div class="pesquisar">
+                        <input type="search" id="busca"
+                            placeholder="Buscar por modelo...">
+                    </div>
+
+                    <label class="controle-filtro">
+                        Categoria
+                        <select id="categoria">
+                            <option value="todos">Todas</option>
+                            <option value="classico">Clássicos</option>
+                            <option value="supercarro">Supercarros</option>
+                        </select>
+                    </label>
+
+                    <label class="controle-filtro">
+                        Organizar por
+                        <select id="ordenacao">
+                            <option value="padrao">Novidades</option>
+                            <option value="menor">Menor preço</option>
+                            <option value="maior">Maior preço</option>
+                        </select>
+                    </label>
+
+                </div>
+
+                <div class="grade-carros" id="grade-carros"></div>
+
+                <div class="vazio" id="mensagem-vazia" hidden>
+                    <h3>Nenhum veículo encontrado</h3>
+                    <p>Tente buscar outro modelo.</p>
+                    <button id="limpar-filtros" class="botao-secundario">
+                        Limpar filtros
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <dialog id="modal-carro" class="modal-carro">
+
+        <button id="fechar-modal" class="fechar-modal">X</button>
+
+        <img id="imagem-modal" alt="Imagem do carro">
+
+        <div class="modal-conteudo">
+            <span id="categoria-modal"></span>
+            <h2 id="titulo-modal"></h2>
+            <p id="descricao-modal"></p>
+            <div class="preco-modal" id="preco-modal"></div>
+
+            <button id="fechar-detalhes" class="botao-primario">
+                VOLTAR AO CATÁLOGO
+            </button>
         </div>
 
-        <div class="filtros">
-          <label class="pesquisar" for="busca">
-            <span aria-hidden="true">⌕</span>
-            <input type="search" id="busca" placeholder="Buscar por modelo..." autocomplete="off">
-          </label>
-          <label class="controle-filtro" for="categoria">
-            <span>Categoria</span>
-            <select id="categoria">
-              <option value="todos">Todas</option>
-              <option value="classico">Clássicos</option>
-              <option value="supercarro">Supercarros</option>
-            </select>
-          </label>
-          <label class="controle-filtro" for="ordenacao">
-            <span>Organizar por</span>
-            <select id="ordenacao">
-              <option value="padrao">Novidades</option>
-              <option value="menor">Menor preço</option>
-              <option value="maior">Maior preço</option>
-            </select>
-          </label>
-        </div>
+    </dialog>
 
-        <div class="grade-carros" id="grade-carros" aria-live="polite"></div>
-        <div class="vazio" id="mensagem-vazia" hidden>
-          <span aria-hidden="true">⌕</span>
-          <h3>Nenhum veículo encontrado</h3>
-          <p>Tente outra busca ou altere os filtros.</p>
-          <button type="button" id="limpar-filtros" class="botao-secundario">Limpar filtros</button>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="rodape-dashboard">VELOCITY MOTORSPORT <span>·</span> PROJETO DEMONSTRATIVO · 2026</footer>
-
-  <dialog id="modal-carro" class="modal-carro" aria-labelledby="titulo-modal">
-    <button type="button" class="fechar-modal" id="fechar-modal" aria-label="Fechar detalhes">✕</button>
-    <img id="imagem-modal" alt="">
-    <div class="modal-conteudo">
-      <span class="etiqueta" id="categoria-modal"></span>
-      <h2 id="titulo-modal"></h2>
-      <p id="descricao-modal"></p>
-      <div class="preco-modal" id="preco-modal"></div>
-      <button type="button" class="botao-primario" id="fechar-detalhes">VOLTAR AO CATÁLOGO</button>
-    </div>
-  </dialog>
 </body>
 </html>

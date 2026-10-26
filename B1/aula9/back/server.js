@@ -1,61 +1,111 @@
-const express = require('express');
-const session = require('express-session');
-const path = require('path');
+
+const express = require("express");
+const session = require("express-session");
+const path = require("path");
+
 const app = express();
 
-// ADICIONE ESTA LINHA AQUI ABAIXO:
-app.use(express.static(path.join(__dirname, '../frontend')));""
-// Permite que o Node leia os dados enviados pelo formulÃ¡rio HTML
+const frontend = path.join(__dirname, "../front");
+
+// Receber dados do formulário
 app.use(express.urlencoded({ extended: true }));
 
-// Passo 4: ConfiguraÃ§Ã£o da SessÃ£o (Expira em 60 segundos)
+// Configuração da sessão
 app.use(session({
-    secret: 'minha_chave_secreta',
+    secret: process.env.SESSION_SECRET || "chave_de_teste_velocity",
     resave: false,
-    saveUninitialized: true,
-    cookie: { 
-        maxAge: 60000 //em milisegundos
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60000,
+        httpOnly: true,
+        sameSite: "lax"
     }
 }));
 
-// Rota inicial: Entrega a pÃ¡gina de login de forma segura com path.join
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+// Arquivos públicos
+app.use("/assets", express.static(path.join(frontend, "assets")));
+
+app.get("/colorir.css", (req, res) => {
+    res.sendFile(path.join(frontend, "colorir.css"));
 });
 
-// Recebe os dados do formulÃ¡rio de login
-app.post('/login', (req, res) => {
-    const { user, pass } = req.body; 
-
-    if (user === 'admin' && pass === 'admin') { 
-        req.session.user = user; 
-        res.redirect('/dashboard'); 
-    } else { 
-        res.send('Login ou senha incorretos! <a href="/login">Tentar novamente</a>'); 
-    } 
+app.get("/script.js", (req, res) => {
+    res.sendFile(path.join(frontend, "script.js"));
 });
 
-// Passo 2: FunÃ§Ã£o que barra invasores
+// Página inicial
+app.get("/", (req, res) => {
+    res.redirect("/login");
+});
+
+// Página de login
+app.get("/login", (req, res) => {
+    res.sendFile(path.join(frontend, "index.html"));
+});
+
+// Verificação do login
+app.post("/login", (req, res) => {
+    const { email, senha } = req.body;
+
+    // Administrador
+    if (email === "admin" && senha === "admin") {
+        req.session.usuario = "admin";
+        req.session.tipo = "admin";
+
+        return res.redirect("/dashboard");
+    }
+
+    // Cliente normal
+    if (typeof email === "string" && typeof senha === "string" &&
+        email.includes("@") && senha.length >= 6) {
+
+        req.session.usuario = email;
+        req.session.tipo = "cliente";
+
+        return res.redirect("/dashboard");
+    }
+
+    res.redirect("/login?erro=1");
+});
+
+// Middleware de proteção
 function verificaAcesso(req, res, next) {
-    if (req.session.user) {
-        next(); 
+    if (req.session.usuario) {
+        next();
     } else {
-        res.redirect('/login'); 
+        res.redirect("/login");
     }
 }
 
-// Rota protegida: Entrega o dashboard de forma segura com path.join
-app.get('/dashboard', verificaAcesso, (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dashboard.html'));
+// Dashboard protegido
+app.get("/dashboard", verificaAcesso, (req, res) => {
+    res.sendFile(path.join(frontend, "dashboard.html"));
 });
 
-// Passo 3: Rota do BotÃ£o de Logout
-app.get('/logout', (req, res) => {
-    req.session.destroy(); 
-    res.redirect('/login'); 
+app.get("/dashboard.html", verificaAcesso, (req, res) => {
+    res.redirect("/dashboard");
 });
 
-// Inicia o servidor
+// Retorna o usuário logado
+app.get("/usuario", (req, res) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ erro: "Sessão expirada" });
+    }
+
+    res.json({
+        usuario: req.session.usuario,
+        tipo: req.session.tipo
+    });
+});
+
+// Logout
+app.get("/logout", (req, res) => {
+    req.session.destroy(() => {
+        res.redirect("/login");
+    });
+});
+
+// Iniciar servidor
 app.listen(3000, () => {
-    console.log('Servidor a correr! Aceda a: http://localhost:3000/login');
+    console.log("Servidor rodando em http://localhost:3000/login");
 });
