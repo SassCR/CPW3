@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="colorir.css">
     <script src="script.js" defer></script>
 </head>
+
 <body class="pagina-dashboard">
 
     <header class="cabecalho-dashboard">
@@ -69,8 +70,7 @@
                 <div class="filtros">
 
                     <div class="pesquisar">
-                        <input type="search" id="busca"
-                            placeholder="Buscar por modelo...">
+                        <input type="search" id="busca" placeholder="Buscar por modelo...">
                     </div>
 
                     <label class="controle-filtro">
@@ -91,6 +91,39 @@
                         </select>
                     </label>
 
+                </div>
+
+                <!-- Área exclusiva do administrador -->
+                <div id="area-admin" class="area-admin" hidden>
+                    <button id="abrir-cadastro" class="botao-primario">
+                        + ADICIONAR CARRO
+                    </button>
+
+                    <form id="form-adicionar-carro" hidden>
+                        <h3>CADASTRAR NOVO VEÍCULO</h3>
+
+                        <input type="text" name="nome" placeholder="Nome do carro" required>
+
+                        <select name="categoria" required>
+                            <option value="">Selecione a categoria</option>
+                            <option value="classico">Clássico</option>
+                            <option value="supercarro">Supercarro</option>
+                        </select>
+
+                        <input type="text" name="etiqueta" placeholder="Etiqueta (Ex: ALTA PERFORMANCE)" required>
+
+                        <input type="number" name="preco" placeholder="Preço" min="0" step="0.01" required>
+
+                        <input type="text" name="imagem" placeholder="Imagem (Ex: assets/pariah.webp)" required>
+
+                        <textarea name="descricao" placeholder="Descrição do veículo" required></textarea>
+
+                        <button type="submit" class="botao-primario">
+                            SALVAR CARRO
+                        </button>
+
+                        <p id="mensagem-cadastro" role="status"></p>
+                    </form>
                 </div>
 
                 <div class="grade-carros" id="grade-carros"></div>
@@ -128,4 +161,5 @@
     </dialog>
 
 </body>
+
 </html>

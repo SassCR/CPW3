@@ -554,3 +554,66 @@ body:not(.pagina-dashboard) main {
         flex-wrap: wrap;
     }
 }
+
+
+/* CADASTRO DE CARROS */
+
+.area-admin {
+    margin-bottom: 25px;
+}
+
+.area-admin[hidden],
+#form-adicionar-carro[hidden] {
+    display: none;
+}
+
+#form-adicionar-carro {
+    margin-top: 20px;
+    padding: 25px;
+    background: #180b0d;
+    border: 1px solid #702025;
+    border-radius: 5px;
+}
+
+#form-adicionar-carro h3 {
+    margin-top: 0;
+}
+
+#form-adicionar-carro input,
+#form-adicionar-carro select,
+#form-adicionar-carro textarea {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: #140b0d;
+    color: white;
+    border: 1px solid #623033;
+    border-radius: 5px;
+}
+
+#form-adicionar-carro textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+#mensagem-cadastro {
+    color: #57d987;
+}
+
+
+/* BOTÃO EXCLUIR CARRO */
+
+.excluir-carro {
+    width: 100%;
+    padding: 12px;
+    background-color: #a00000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.excluir-carro:hover {
+    background-color: #e00000;
+}

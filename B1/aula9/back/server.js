@@ -20,6 +20,7 @@ const frontend = path.join(__dirname, "../front");
 
 // Receber dados do formulário
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Configuração da sessão
 app.use(session({
@@ -135,7 +136,7 @@ function verificaAcesso(req, res, next) {
 }
 
 
- // Login rápido de ADMIN para testes locais
+// Login rápido de ADMIN para testes locais
 app.get("/admin", (req, res) => {
     const ip = req.socket.remoteAddress;
 
@@ -192,7 +193,7 @@ app.get("/usuario", (req, res) => {
     });
 });
 
- // Buscar todos os carros do banco de dados
+// Buscar todos os carros do banco de dados
 app.get("/carros", verificaAcesso, (req, res) => {
     db.all("SELECT * FROM carros", [], (err, rows) => {
         if (err) {
@@ -204,6 +205,90 @@ app.get("/carros", verificaAcesso, (req, res) => {
         res.json(rows);
     });
 });
+
+
+// Adicionar um novo carro ao banco de dados
+app.post("/carros", verificaAcesso, (req, res) => {
+    if (req.session.tipo !== "admin") {
+        return res.status(403).json({
+            erro: "Apenas administradores podem cadastrar carros!"
+        });
+    }
+    const { nome, categoria, etiqueta, preco, imagem, descricao } = req.body;
+
+    const valor = Number(preco);
+
+    if (
+        ![nome, categoria, etiqueta, imagem, descricao].every(
+            campo => typeof campo === "string" && campo.trim()
+        ) ||
+        preco === undefined || preco === null || preco === "" ||
+        !Number.isFinite(valor) || valor < 0
+    ) {
+        return res.status(400).json({
+            erro: "Preencha todos os campos corretamente!"
+        });
+    }
+
+    db.run(
+        `INSERT INTO carros
+        (nome, categoria, etiqueta, preco, imagem, descricao)
+        VALUES (?, ?, ?, ?, ?, ?)`,
+        [nome.trim(), categoria.trim(), etiqueta.trim(), valor, imagem.trim(), descricao.trim()],
+        function (err) {
+            if (err) {
+                return res.status(500).json({
+                    erro: "Erro ao adicionar carro!"
+                });
+            }
+
+            res.status(201).json({
+                mensagem: "Carro adicionado com sucesso!",
+                id: this.lastID
+            });
+        }
+    );
+});
+
+
+ // Deletar carro do banco de dados
+app.delete("/carros/:id", verificaAcesso, (req, res) => {
+
+    if (req.session.tipo !== "admin") {
+        return res.status(403).json({
+            erro: "Apenas administradores podem excluir carros!"
+        });
+    }
+
+    const id = Number(req.params.id);
+
+    if (!Number.isSafeInteger(id) || id <= 0) {
+        return res.status(400).json({
+            erro: "ID do carro inválido!"
+        });
+    }
+
+    db.run("DELETE FROM carros WHERE id = ?", [id], function(err) {
+
+        if (err) {
+            return res.status(500).json({
+                erro: "Erro ao excluir carro!"
+            });
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({
+                erro: "Carro não encontrado!"
+            });
+        }
+
+        res.json({
+            mensagem: "Carro excluído com sucesso!"
+        });
+    });
+});
+
+
 
 // Logout
 app.get("/logout", (req, res) => {
