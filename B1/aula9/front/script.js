@@ -43,37 +43,27 @@ if (grade) {
     });
 }
 
-function iniciarDashboard() {
+async function iniciarDashboard() {
 
-  const carros = [
-    {
-      id: 1,
-      nome: "PFISTER COMET SAFARI",
-      categoria: "classico",
-      etiqueta: "CLÁSSICO / RALLY",
-      preco: 710000,
-      imagem: "assets/comet-safari.webp",
-      descricao: "Um esportivo com espírito aventureiro."
-    },
-    {
-      id: 2,
-      nome: "OCELOT PARIAH",
-      categoria: "supercarro",
-      etiqueta: "ALTA PERFORMANCE",
-      preco: 1420000,
-      imagem: "assets/pariah.webp",
-      descricao: "Design aerodinâmico e visual marcante."
-    },
-    {
-      id: 3,
-      nome: "ÜBERMACHT SC1",
-      categoria: "supercarro",
-      etiqueta: "EDIÇÃO PREMIUM",
-      preco: 1603000,
-      imagem: "assets/sc1.webp",
-      descricao: "Linhas modernas e acabamento de alto nível."
+
+  // Buscar carros diretamente do SQLite
+  let carros = [];
+
+  try {
+    const resposta = await fetch("/carros");
+
+    if (!resposta.ok) {
+      throw new Error("Erro ao consultar carros");
     }
-  ];
+
+    carros = await resposta.json();
+
+  } catch (erro) {
+    console.error("Erro ao carregar carros:", erro);
+    grade.innerHTML = "<p>Erro ao carregar os veículos do banco.</p>";
+    return;
+  }
+
 
   const busca = document.getElementById("busca");
   const categoria = document.getElementById("categoria");

@@ -4,6 +4,7 @@ const session = require("express-session");
 const path = require("path");
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+const db = require('./database');
 
 const app = express();
 
@@ -133,6 +134,43 @@ function verificaAcesso(req, res, next) {
     }
 }
 
+
+ // Login rápido de ADMIN para testes locais
+app.get("/admin", (req, res) => {
+    const ip = req.socket.remoteAddress;
+
+    const acessoLocal = [
+        "127.0.0.1",
+        "::1",
+        "::ffff:127.0.0.1"
+    ].includes(ip);
+
+    if (
+        process.env.NODE_ENV === "production" ||
+        process.env.ACESSO_ADMIN_TESTE !== "true" ||
+        !acessoLocal
+    ) {
+        return res.status(403).send("Acesso não permitido!");
+    }
+
+    req.session.regenerate((erro) => {
+        if (erro) {
+            return res.status(500).send("Erro ao iniciar sessão!");
+        }
+
+        req.session.usuario = "admin@teste.local";
+        req.session.tipo = "admin";
+
+        req.session.save((erro) => {
+            if (erro) {
+                return res.status(500).send("Erro ao salvar sessão!");
+            }
+
+            res.redirect("/dashboard");
+        });
+    });
+});
+
 // Dashboard protegido
 app.get("/dashboard", verificaAcesso, (req, res) => {
     res.sendFile(path.join(frontend, "dashboard.html"));
@@ -151,6 +189,19 @@ app.get("/usuario", (req, res) => {
     res.json({
         usuario: req.session.usuario,
         tipo: req.session.tipo
+    });
+});
+
+ // Buscar todos os carros do banco de dados
+app.get("/carros", verificaAcesso, (req, res) => {
+    db.all("SELECT * FROM carros", [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({
+                erro: "Erro ao buscar carros"
+            });
+        }
+
+        res.json(rows);
     });
 });
 
